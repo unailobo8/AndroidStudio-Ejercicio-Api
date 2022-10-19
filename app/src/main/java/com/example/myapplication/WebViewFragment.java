@@ -2,19 +2,20 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link WebViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WebViewFragment extends android.app.Fragment {
+public class WebViewFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,10 +58,18 @@ public class WebViewFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        WebView webView = (WebView) container.findViewById(R.id.vWeb);
+        View v = inflater.inflate(R.layout.fragment_web_view, container,false);
+        WebView webView = (WebView) v.findViewById(R.id.vWeb);
         pWeb = "https://" + pWeb.substring(11, pWeb.length() -4);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url){
+                view.loadUrl(url);
+                return false;
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(pWeb);
-        return inflater.inflate(R.layout.fragment_web_view, container, false);
+        return v;
     }
 }
